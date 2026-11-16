@@ -1,0 +1,159 @@
+# app/forms.py
+from flask_wtf import FlaskForm
+from wtforms import (
+    StringField, IntegerField, DecimalField, BooleanField, PasswordField,
+    TextAreaField, SelectField, SubmitField, SelectMultipleField, widgets, DateField
+)
+from wtforms.validators import DataRequired, NumberRange, Optional, Length, EqualTo
+
+SITUACOES = [("OK", "OK"), ("EM_USO", "EM_USO"), ("INOPERANTE", "INOPERANTE")]
+
+# CLASSE 1 - RAÇÃO
+
+class CL1Form(FlaskForm):
+    tipo = SelectField(
+        "Tipo",
+        choices=[("RA", "Ração Operacional RA"), ("R2", "Ração Operacional R2"), ("R3", "Ração Operacional R3")],
+        validators=[DataRequired()],
+    )
+    quantidade = IntegerField("Quantidade", validators=[DataRequired()])
+    validade = DateField("Data de Validade", format="%Y-%m-%d", validators=[DataRequired()])
+    cardapio1 = TextAreaField("Cardápio 1", validators=[Optional(), Length(max=2000)])
+    cardapio2 = TextAreaField("Cardápio 2", validators=[Optional(), Length(max=2000)])
+    cardapio3 = TextAreaField("Cardápio 3", validators=[Optional(), Length(max=2000)])
+    cardapio4 = TextAreaField("Cardápio 4", validators=[Optional(), Length(max=2000)])
+    menu_atual = SelectField(
+        "Cardápio escolhido",
+        choices=[
+            ("1", "Cardápio 1"),
+            ("2", "Cardápio 2"),
+            ("3", "Cardápio 3"),
+            ("4", "Cardápio 4"),
+        ],
+        validators=[DataRequired()],
+        default="1",
+    )
+    lote = StringField("Lote", validators=[Optional(), Length(max=120)])
+    motivo_edicao = TextAreaField("Motivo da edição", validators=[Optional(), Length(max=500)])
+    submit = SubmitField("Salvar")
+
+# ----------------- CL2 -----------------
+class CL2Form(FlaskForm):
+    nome = StringField("Nome", validators=[DataRequired(), Length(max=120)])
+    situacao = StringField("Situação", validators=[Optional(), Length(max=30)])
+    qtd_prevista = IntegerField("Quantidade Prevista", validators=[Optional(), NumberRange(min=0)])
+    qtd_disp = IntegerField("Quantidade Disponível", validators=[Optional(), NumberRange(min=0)])
+    qtd_indisp = IntegerField("Quantidade Indisponível", validators=[Optional(), NumberRange(min=0)])
+    necessidade = IntegerField("Necessidade", validators=[Optional(), NumberRange(min=0)])
+    qtd_cautelada = IntegerField("Quantidade Cautelada", validators=[Optional(), NumberRange(min=0)])
+    observacoes = TextAreaField("Observações", validators=[Optional(), Length(max=2000)])
+    submit = SubmitField("Salvar")
+
+# ----------------- CL6 ----------------- NOVO
+class CL6Form(FlaskForm):
+    material = StringField("Material", validators=[DataRequired(), Length(max=120)])
+    situacao_patrimonial = SelectField(
+    "Situação patrimonial",
+    choices=[("em carga", "em carga"), ("fora de carga", "fora de carga")],
+    validators=[DataRequired()],
+    )
+    codot_item_material = StringField("CODOT Item material", validators=[Optional(), Length(max=120)])
+    numero_patrimonio_material = StringField("Número de patrimônio do material", validators=[Optional(), Length(max=120)])
+    ano_fabricacao = IntegerField("Ano de Fabricação", validators=[Optional(), NumberRange(min=1900, max=2100)])
+    disponibilidade = StringField("Disponibilidade", validators=[Optional(), Length(max=30)])
+    categoria = SelectField(
+    "Categoria",
+    choices=[("construcao", "construção"), ("combate", "combate")],
+    validators=[Optional()],
+    )
+    valor_inclusao_carga = DecimalField("Valor de inclusão em carga (R$)", places=2, validators=[Optional(), NumberRange(min=0)])
+    localizacao_atual = StringField("Localização atual", validators=[Optional(), Length(max=120)])
+
+
+    marca = StringField("Marca", validators=[Optional(), Length(max=120)])
+    modelo = StringField("Modelo", validators=[Optional(), Length(max=120)])
+    numero_serie = StringField("Número de série", validators=[Optional(), Length(max=120)])
+
+
+    submit = SubmitField("Salvar")
+
+# ----------------- CL7 -----------------
+class CL7Form(FlaskForm):
+    material = StringField("Nome do Material", validators=[DataRequired(), Length(max=120)])
+    marca = StringField("Marca", validators=[Optional(), Length(max=120)])
+    modelo = StringField("Modelo", validators=[Optional(), Length(max=120)])
+    numero_serie = StringField("Número de Série", validators=[Optional(), Length(max=120)])
+    situacao = StringField("Situação", validators=[Optional(), Length(max=30)])
+    observacao = TextAreaField("Observação (defeito)", validators=[Optional(), Length(max=2000)])
+    submit = SubmitField("Salvar")
+
+# ----------------- CL9 -----------------
+class CL9Form(FlaskForm):
+    tipo_modelo = StringField("Tipo / Modelo", validators=[DataRequired(), Length(max=160)])
+    numero_eb = StringField("Número EB", validators=[DataRequired(), Length(max=120)])
+    situacao = SelectField(
+        "Situação",
+        choices=[
+            ("DISPONÍVEL", "Disponível"),
+            ("DISPONÍVEL COM RESTRIÇÃO", "Disponível com restrição"),
+            ("INDISPONÍVEL", "Indisponível"),
+        ],
+        validators=[DataRequired()],
+        default="DISPONÍVEL",
+    )
+    localizacao = SelectField(
+        "Localização",
+        choices=[("GARAGEM", "Garagem"), ("DESTINO/MISSÃO", "Em destino/missão")],
+        validators=[DataRequired()],
+        default="GARAGEM",
+    )
+    destino_missao = StringField("Destino / Missão", validators=[Optional(), Length(max=180)])
+    motivo_indisponibilidade = TextAreaField(
+        "Motivo da indisponibilidade", validators=[Optional(), Length(max=2000)]
+    )
+    observacoes = TextAreaField("Observações", validators=[Optional(), Length(max=2000)])
+    motivo_edicao = TextAreaField("Motivo da edição", validators=[Optional(), Length(max=500)])
+    submit = SubmitField("Salvar")
+
+# ----------------- Usuários -----------------
+class UserForm(FlaskForm):
+    full_name = StringField("Nome completo", validators=[DataRequired(), Length(max=120)])
+    username = StringField("Login", validators=[DataRequired(), Length(max=80)])
+    identity = StringField("Identidade", validators=[Optional(), Length(max=40)])
+
+    # admin / all / user / viewer
+    role = SelectField("Perfil", choices=[
+        ("user", "Usuário (apenas classes selecionadas)"),
+        ("viewer", "Usuário (visualiza todas, edita somente selecionadas)"),
+        ("all", "Usuário (todas as classes)"),
+        ("admin", "Administrador (acesso total)"),
+    ], validators=[DataRequired()])
+
+    active = BooleanField("Ativo", default=True)
+
+    # múltiplas classes (apenas se role=user)
+    classes = SelectMultipleField(
+        "Classes com acesso",
+        choices=[("CL1", "CL1"), ("CL2", "CL2"), ("CL6", "CL6"), ("CL7", "CL7"), ("CL9", "CL9")],
+        option_widget=widgets.CheckboxInput(),
+        widget=widgets.ListWidget(prefix_label=False),
+        validators=[Optional()],
+    )
+
+    password = PasswordField("Senha", validators=[Optional(), Length(min=8, max=128)])
+    confirm = PasswordField("Confirmar senha", validators=[Optional(), EqualTo("password", message="Senhas diferentes")])
+    submit = SubmitField("Salvar")
+
+class UserPasswordForm(FlaskForm):
+    password = PasswordField("Nova senha", validators=[DataRequired(), Length(min=4, max=128)])
+    confirm = PasswordField("Confirmar senha", validators=[DataRequired(), EqualTo("password", message="Senhas diferentes")])
+    submit = SubmitField("Atualizar senha")
+
+class RegisterForm(FlaskForm):
+    full_name = StringField("Nome completo", validators=[DataRequired(), Length(max=120)])
+    username = StringField("Login", validators=[DataRequired(), Length(max=80)])
+    identity = StringField("Identidade", validators=[Optional(), Length(max=80)])
+    password = PasswordField("Senha", validators=[DataRequired(), Length(min=4, max=128)])
+    confirm  = PasswordField("Confirmar senha", validators=[DataRequired(), EqualTo("password", "Senhas diferentes")])
+    accept = BooleanField("Aceito os termos de uso", validators=[DataRequired(message="Confirme os termos para continuar")])
+    submit = SubmitField("Criar conta")

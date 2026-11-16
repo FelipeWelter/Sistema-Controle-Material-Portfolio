@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<style>
+  .dash-wrap{
+    position: relative;
+    min-height: calc(100vh - 56px);
+    background: url("{{ url_for('static', filename='img/login-bg.svg') }}") center/cover no-repeat fixed;
+    display:flex; align-items:center; justify-content:center;
+    padding: 28px 16px;
+  }
+  .dash-wrap::before{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));
+  }
+  .dash-container{ position:relative; width:100%; max-width:1100px; }
+  .dash-header{
+    color:#fff; margin-bottom:16px; display:flex; align-items:end; justify-content:space-between; gap:12px;
+  }
+  .dash-header h2{ margin:0; font-weight:800; letter-spacing:.3px; text-shadow:0 4px 18px rgba(0,0,0,.35); }
+  .card-glass{
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    color:#fff;
+  }
+  .card-glass .card-body{ padding:22px; }
+  .card-glass .card-title{ font-weight:700; }
+  .card-glass p{ color:#eaeaea; margin-bottom:16px; }
+  .btn-primary{ box-shadow:0 6px 18px rgba(13,110,253,.35); }
+  .mini-note{ color:#d6d6d6; font-size:.92rem; }
+</style>
+
+<div class="dash-wrap">
+  <div class="dash-container">
+
+    <div class="dash-header">
+      <h2>Sistema de Controle | 4ª Sec - 6ª Cia Com Mec</h2>
+      <div class="mini-note">Bem-vindo, {{ current_user.username }}.</div>
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-md-4">
+        <div class="card card-glass h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Classe I</h5>
+            <p class="card-text flex-grow-1">Controle de Material Classe I.</p>
+            <a href="{{ url_for('inv.cl1_list') }}" class="btn btn-primary w-100">Abrir</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-4">
+        <div class="card card-glass h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Classe II</h5>
+            <p class="card-text flex-grow-1">Controle de Material Classe II.</p>
+            <a href="{{ url_for('inv.cl2_list') }}" class="btn btn-primary w-100">Abrir</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card card-glass h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Classe VI</h5>
+            <p class="card-text flex-grow-1">Controle de Material Classe VI.</p>
+            <a href="{{ url_for('inv.cl6_list') }}" class="btn btn-primary w-100">Abrir</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card card-glass h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Classe VII</h5>
+            <p class="card-text flex-grow-1">Controle de Material Classe VII.</p>
+            <a href="{{ url_for('inv.cl7_hub') }}" class="btn btn-primary w-100">Abrir</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card card-glass h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Classe IX</h5>
+            <p class="card-text flex-grow-1">Controle de Viaturas Classe IX.</p>
+            <a href="{{ url_for('inv.cl9_list') }}" class="btn btn-primary w-100">Abrir</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4" id="usuarios">
+        <div class="card card-glass h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Usuários</h5>
+            <p class="card-text flex-grow-1">Gerenciar Contas de Acesso.</p>
+            <a href="{{ url_for('admin.users_list') }}" class="btn btn-primary w-100">Usuários</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
