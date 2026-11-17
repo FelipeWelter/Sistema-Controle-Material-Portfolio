@@ -16,6 +16,24 @@ O histórico registra a data, o usuário responsável, o motivo e os valores ant
 
 ![Histórico do recebimento com quantidade anterior de 10 e nova quantidade de 40](docs/images/historico.png)
 
+### Gestão de usuários
+
+A tela administrativa permite consultar contas, perfis, classes atribuídas e situação de acesso. A captura mostra a conta fictícia **Admin Demo**.
+
+![Tela de usuários com a conta de demonstração](docs/images/usuarios.png)
+
+### Classe VII
+
+Consulta de materiais com busca e contadores por situação. A captura mostra a lista inicial da demonstração.
+
+![Menu da Classe VII com busca e contadores de disponibilidade](docs/images/classe-vii.png)
+
+### Classe IX
+
+Painel de viaturas com busca e indicadores de disponibilidade. A captura mostra a lista inicial da demonstração.
+
+![Menu da Classe IX com busca e indicadores de disponibilidade](docs/images/classe-ix.png)
+
 ## Como rodar
 
 ```sh
